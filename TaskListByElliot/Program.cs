@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,48 +9,52 @@ namespace TaskListByElliot
 {
     class Program
     {
-        static void Main(string[] args)
+       static void Main(string[] args)
         {
             var quit = false;
-            var tasks = new List<string>();
+            var tasks = new List<string>(File.ReadAllLines("listita.txt"));
 
             //load the list from a file here 
-
+            
             do
             {
                 PringMenu();
 
+                Console.WriteLine(" ================");
+
+                Console.WriteLine(" ");
                 Console.Write("Select your item: ");
                 string input = Console.ReadLine();
                 Console.WriteLine(" ");
 
                 //So, now we have input. Let check it against some pre-conditions
 
-                quit = HandleInput(tasks, input);
+                quit = HandleInput( tasks, input);
 
             } while (!quit);
 
             // save the list on a file here
+            
         }
 
-        private static bool HandleInput(List<string> tasks, string input)
+        private static bool HandleInput( List<string> tasks, string input)
         {
             bool quit = false;
             if (input == "0")
-
+                
             {
+                File.WriteAllLines("listita.txt", tasks);
+               
                 quit = true;
             }
 
-            else if (input == "1")
+            else if (input == "1" )
             {
                 Console.Write("Enter your task: ");
                 var newTask = Console.ReadLine();
 
                 //Now, add the input task to the list.
                 tasks.Add(newTask);
-
-
             }
 
             else if (input == "2")
@@ -61,9 +66,14 @@ namespace TaskListByElliot
 
                 for (int i = 0; i < tasks.Count; ++i)
                 {
+                  Console.WriteLine($"{i + 1}. {tasks[i]}");
 
-                    Console.WriteLine($"{i + 1}. {tasks[i]}");
+                    
+
                 }
+        
+            
+                Console.WriteLine(" ");
                 Console.Write("Enter any key to return to the main menu ");
                 Console.ReadKey();
 
@@ -85,14 +95,32 @@ namespace TaskListByElliot
             //PrintMenu();
             Console.Clear();
             //First things first, print the user interface
-            Console.WriteLine(" Task List");
+            Console.WriteLine(" ");
             Console.WriteLine(" ================");
+            Console.WriteLine(" Task List");
+            Console.WriteLine(" ----------------");
 
             Console.WriteLine(" ");
 
             Console.WriteLine(" 1. add a task");
             Console.WriteLine(" 2. Display  task");
-            Console.WriteLine(" 3. Quit");
+            Console.WriteLine(" 0. Quit");
         }
     }
 }
+                  
+
+                
+
+          
+
+                
+
+                    
+                    
+
+              
+
+
+
+
